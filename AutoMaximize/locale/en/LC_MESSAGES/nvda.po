@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AutoMaximize 1.1\n"
+"Report-Msgid-Bugs-To: ahmedBakr593@gmail.com\n"
+"POT-Creation-Date: 2026-07-15 00:00+0000\n"
+"PO-Revision-Date: 2026-07-15 00:00+0000\n"
+"Last-Translator: AutoMaximize\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: The title of the AutoMaximize category in NVDA's Settings dialog.
+msgid "AutoMaximize"
+msgstr "AutoMaximize"
+
+#. Translators: Label for a checkbox in the AutoMaximize settings panel.
+msgid "Automatically maximize standard application &windows"
+msgstr "Automatically maximize standard application &windows"
+
+#. Translators: Label for a checkbox in the AutoMaximize settings panel.
+msgid "Automatically maximize &dialog windows"
+msgstr "Automatically maximize &dialog windows"
+
+#. Translators: Description of the toggle command shown in Input Gestures.
+msgid "Toggles automatic window maximization on or off"
+msgstr "Toggles automatic window maximization on or off"
+
+#. Translators: Announced when the toggle turns the feature on.
+msgid "Automatic window maximization enabled"
+msgstr "Automatic window maximization enabled"
+
+#. Translators: Announced when the toggle turns the feature off.
+msgid "Automatic window maximization disabled"
+msgstr "Automatic window maximization disabled"
