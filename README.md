@@ -44,9 +44,9 @@ AutoMaximize starts working automatically after installation. Also note the foll
 
 ## Support
 
-For source code, bug reports, or contributions, visit the [AutoMaximize project on GitHub][https://github.com/tecwindow/AutoMaximize].
+For source code, bug reports, or contributions, visit the [AutoMaximize project on [GitHub](https://github.com/tecwindow/AutoMaximize).
 
-For more software, accessibility tools, and technology content, visit the [TecWindow website][https://tecwindow.net].
+For more software, accessibility tools, and technology content, visit the [Tecwindow website](https://tecwindow.net).
 
 ## Changes
 
