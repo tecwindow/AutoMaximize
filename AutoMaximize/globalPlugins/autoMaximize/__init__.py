@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
 # AutoMaximize global plugin for NVDA
 # A standalone add-on to automatically maximize windows.
-# Author: MesterPerfect <ahmedBakr593@gmail.com> - https://tecwindow.net
+# Author: Tecwindow - https://tecwindow.net
 
 """AutoMaximize global plugin.
 
-Automatically maximizes the foreground window while NVDA is running.
+Automatically maximizes eligible application windows while NVDA is running.
 Standard application windows and dialog windows can be controlled
 independently from the NVDA Settings dialog, and the whole feature can be
 toggled on or off with a configurable keyboard command that provides audible
@@ -19,6 +19,7 @@ import api
 import config
 import core
 import globalPluginHandler
+import logHandler
 import scriptHandler
 import tones
 import ui
@@ -87,13 +88,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def __init__(self):
 		super().__init__()
-		# Handle of the pending polling timer, or None when no check is queued.
 		self._maximizeTimer = None
 		# Register the settings category, guarding against a duplicate entry in
 		# case the plugin is reloaded without a full NVDA restart.
 		if AutoMaximizeSettingsPanel not in NVDASettingsDialog.categoryClasses:
 			NVDASettingsDialog.categoryClasses.append(AutoMaximizeSettingsPanel)
-		# Delay the first check so NVDA has finished initializing.
 		self._scheduleCheck(CHECK_INTERVAL)
 
 	def terminate(self):
@@ -104,7 +103,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		try:
 			NVDASettingsDialog.categoryClasses.remove(AutoMaximizeSettingsPanel)
 		except ValueError:
-			# Not registered (e.g. already removed); nothing to do.
 			pass
 		super().terminate()
 
@@ -127,7 +125,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				self._maximizeForegroundWindow()
 		except Exception:
 			# Never let an unexpected error break NVDA or stop the loop.
-			pass
+			logHandler.log.exception("AutoMaximize timer failed")
 		finally:
 			self._scheduleCheck(CHECK_INTERVAL)
 
@@ -182,7 +180,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if enabled:
 			# High-pitched beep signals that maximization is now active.
 			tones.beep(880, 120)
-			# Apply immediately rather than waiting for the next poll tick.
 			self._scheduleCheck(0)
 			# Translators: Announced when the toggle turns the feature on.
 			ui.message(_("Automatic window maximization enabled"))

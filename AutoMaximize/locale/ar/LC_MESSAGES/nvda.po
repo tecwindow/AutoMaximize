@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: AutoMaximize 1.1\n"
 "Report-Msgid-Bugs-To: ahmedBakr593@gmail.com\n"
 "POT-Creation-Date: 2026-07-15 00:00+0000\n"
-"PO-Revision-Date: 2026-07-15 00:00+0000\n"
+"PO-Revision-Date: 2026-07-15 23:11+0300\n"
 "Last-Translator: AutoMaximize\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -12,6 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+"X-Generator: Poedit 3.9\n"
 
 #. Translators: The title of the AutoMaximize category in NVDA's Settings dialog.
 msgid "AutoMaximize"
@@ -23,16 +24,16 @@ msgstr "تكبير &نوافذ التطبيقات القياسية تلقائي�
 
 #. Translators: Label for a checkbox in the AutoMaximize settings panel.
 msgid "Automatically maximize &dialog windows"
-msgstr "تكبير نوافذ ال&حوار تلقائيًا"
+msgstr "تكبير مربعات ال&حوار تلقائيًا"
 
 #. Translators: Description of the toggle command shown in Input Gestures.
 msgid "Toggles automatic window maximization on or off"
-msgstr "تبديل تكبير النوافذ التلقائي بين التشغيل والإيقاف"
+msgstr "إيقاف أو تشغيل التكبير التلقائي للنوافذ"
 
 #. Translators: Announced when the toggle turns the feature on.
 msgid "Automatic window maximization enabled"
-msgstr "تم تفعيل تكبير النوافذ التلقائي"
+msgstr "تم تفعيل التكبير التلقائي للنوافذ"
 
 #. Translators: Announced when the toggle turns the feature off.
 msgid "Automatic window maximization disabled"
-msgstr "تم إيقاف تكبير النوافذ التلقائي"
+msgstr "تم إيقاف التكبير التلقائي للنوافذ"
