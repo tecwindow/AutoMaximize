@@ -57,7 +57,7 @@ addon_info = AddonInfo(
 # For more information on SCons Glob expressions please take a look at:
 # https://scons.org/doc/production/HTML/scons-user/apd.html
 pythonSources: list[str] = [
-	"addon/globalPlugins/autoMaximize/*.py"
+	"addon/globalPlugins/autoMaximize/*.py",
 ]
 
 # Files that contain strings for translation. Usually your python sources
@@ -109,4 +109,3 @@ symbolDictionaries: SymbolDictionaries = {}
 # displayName (name of the speech dictionary shown to users and translatable),
 # mandatory (True when always enabled, False when not).
 speechDictionaries: SpeechDictionaries = {}
-

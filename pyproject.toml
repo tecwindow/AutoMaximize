@@ -80,6 +80,7 @@ exclude = [
 	"__pycache__",
 	".venv",
 	"buildVars.py",
+	"addon/**/*.py",
 ]
 
 [tool.ruff.format]
