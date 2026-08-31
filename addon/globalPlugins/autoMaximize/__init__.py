@@ -1,3 +1,5 @@
+
+# pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false
 # -*- coding: UTF-8 -*-
 # AutoMaximize global plugin for NVDA
 # A standalone add-on to automatically maximize windows.
@@ -12,6 +14,7 @@ toggled on or off with a configurable keyboard command that provides audible
 (beep) feedback.
 """
 
+import typing
 import wx
 
 import addonHandler
@@ -27,26 +30,30 @@ import winUser
 from gui import guiHelper
 from gui.settingsDialogs import NVDASettingsDialog, SettingsPanel
 
+# Provide a stub for the gettext translation function so type checkers recognize it.
+if typing.TYPE_CHECKING:
+	def _(message: str) -> str: ...
+
 addonHandler.initTranslation()
 
 # --- Win32 constants (from winuser.h) ---------------------------------------
-SC_MAXIMIZE = 0xF030          # wParam for WM_SYSCOMMAND that maximizes a window
-WM_SYSCOMMAND = 0x112         # message used to send a system command to a window
-WS_MAXIMIZE = 0x01000000      # window style set when a window is already maximized
-WS_MAXIMIZEBOX = 0x00010000   # window style present when a window CAN be maximized
+SC_MAXIMIZE: int = 0xF030          # wParam for WM_SYSCOMMAND that maximizes a window
+WM_SYSCOMMAND: int = 0x112         # message used to send a system command to a window
+WS_MAXIMIZE: int = 0x01000000      # window style set when a window is already maximized
+WS_MAXIMIZEBOX: int = 0x00010000   # window style present when a window CAN be maximized
 
 # Standard Win32 class name shared by common dialog boxes.
-DIALOG_WINDOW_CLASS = "#32770"
+DIALOG_WINDOW_CLASS: str = "#32770"
 # Window classes that must never be maximized (shell / system surfaces).
-SKIP_WINDOW_CLASSES = frozenset(("Shell_TrayWnd", "DV2ControlHost"))
+SKIP_WINDOW_CLASSES: frozenset[str] = frozenset(("Shell_TrayWnd", "DV2ControlHost"))
 
 # How often (in milliseconds) the foreground window is inspected.
-CHECK_INTERVAL = 1000
+CHECK_INTERVAL: int = 1000
 
 # Configuration section and specification for this add-on. Registering a spec
 # lets NVDA persist the values across restarts and supplies the defaults.
-CONFIG_SECTION = "autoMaximize"
-CONFIG_SPEC = {
+CONFIG_SECTION: str = "autoMaximize"
+CONFIG_SPEC: dict[str, str] = {
 	"enabled": "boolean(default=true)",
 	# Standard application windows were always maximized before, so keep that
 	# behaviour by default.
@@ -63,7 +70,7 @@ class AutoMaximizeSettingsPanel(SettingsPanel):
 	# Translators: The title of the AutoMaximize category in NVDA's Settings dialog.
 	title = _("AutoMaximize")
 
-	def makeSettings(self, settingsSizer):
+	def makeSettings(self, settingsSizer: typing.Any) -> None:
 		"""Build the panel controls and populate them from saved configuration."""
 		sHelper = guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 		conf = config.conf[CONFIG_SECTION]
@@ -76,7 +83,7 @@ class AutoMaximizeSettingsPanel(SettingsPanel):
 		self.dialogsCheckBox = sHelper.addItem(wx.CheckBox(self, label=dialogsLabel))
 		self.dialogsCheckBox.SetValue(conf["maximizeDialogs"])
 
-	def onSave(self):
+	def onSave(self) -> None:
 		"""Persist the panel controls back to NVDA's configuration."""
 		conf = config.conf[CONFIG_SECTION]
 		conf["maximizeApplications"] = self.appsCheckBox.GetValue()
@@ -86,16 +93,16 @@ class AutoMaximizeSettingsPanel(SettingsPanel):
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"""Global plugin that keeps the foreground window maximized."""
 
-	def __init__(self):
+	def __init__(self) -> None:
 		super().__init__()
-		self._maximizeTimer = None
+		self._maximizeTimer: typing.Any = None
 		# Register the settings category, guarding against a duplicate entry in
 		# case the plugin is reloaded without a full NVDA restart.
 		if AutoMaximizeSettingsPanel not in NVDASettingsDialog.categoryClasses:
 			NVDASettingsDialog.categoryClasses.append(AutoMaximizeSettingsPanel)
 		self._scheduleCheck(CHECK_INTERVAL)
 
-	def terminate(self):
+	def terminate(self) -> None:
 		"""Clean up the timer and settings category on unload / reload."""
 		if self._maximizeTimer is not None:
 			self._maximizeTimer.Stop()
@@ -106,13 +113,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			pass
 		super().terminate()
 
-	def _scheduleCheck(self, delay=CHECK_INTERVAL):
+	def _scheduleCheck(self, delay: int = CHECK_INTERVAL) -> None:
 		"""(Re)schedule a single foreground-window check after ``delay`` ms."""
 		if self._maximizeTimer is not None:
 			self._maximizeTimer.Stop()
 		self._maximizeTimer = core.callLater(delay, self._onTimer)
 
-	def _onTimer(self):
+	def _onTimer(self) -> None:
 		"""Timer callback: maximize when enabled, then keep the loop alive.
 
 		The loop keeps ticking even while the feature is disabled so that
@@ -129,7 +136,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		finally:
 			self._scheduleCheck(CHECK_INTERVAL)
 
-	def _maximizeForegroundWindow(self):
+	def _maximizeForegroundWindow(self) -> None:
 		"""Maximize the current foreground window if configuration allows it."""
 		foreground = api.getForegroundObject()
 		if foreground is None:
@@ -138,7 +145,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if hWnd:
 			self._maximizeWindow(hWnd)
 
-	def _maximizeWindow(self, hWnd):
+	def _maximizeWindow(self, hWnd: int) -> None:
 		"""Maximize ``hWnd`` when it is eligible and enabled in configuration.
 
 		A window is eligible only when it is not already maximized, exposes a
@@ -173,7 +180,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		category=_("AutoMaximize"),
 		gesture="kb:NVDA+shift+a",
 	)
-	def script_toggleAutoMaximize(self, gesture):
+	def script_toggleAutoMaximize(self, gesture: typing.Any) -> None:
 		"""Toggle the feature, giving a distinguishable beep as feedback."""
 		enabled = not config.conf[CONFIG_SECTION]["enabled"]
 		config.conf[CONFIG_SECTION]["enabled"] = enabled
@@ -188,3 +195,4 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			tones.beep(220, 120)
 			# Translators: Announced when the toggle turns the feature off.
 			ui.message(_("Automatic window maximization disabled"))
+
