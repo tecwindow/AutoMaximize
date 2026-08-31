@@ -1,5 +1,5 @@
 
-# pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false
+# pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false
 # -*- coding: UTF-8 -*-
 # AutoMaximize global plugin for NVDA
 # A standalone add-on to automatically maximize windows.
@@ -195,4 +195,3 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			tones.beep(220, 120)
 			# Translators: Announced when the toggle turns the feature off.
 			ui.message(_("Automatic window maximization disabled"))
-
