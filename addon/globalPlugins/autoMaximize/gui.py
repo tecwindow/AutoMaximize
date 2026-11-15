@@ -46,9 +46,13 @@ class AutoMaximizeSettingsPanel(SettingsPanel):
 		excludedLabel = _("&Excluded applications:")
 		rawExcluded = conf.get("excludedApplications", [])
 		excludedApps = sorted({normalizeAppName(x) for x in rawExcluded if normalizeAppName(x)})
-		self.excludedListBox = wx.ListBox(self, choices=excludedApps, style=wx.LB_SINGLE)
+		self.excludedListBox = sHelper.addLabeledControl(
+			excludedLabel,
+			wx.ListBox,
+			choices=excludedApps,
+			style=wx.LB_SINGLE,
+		)
 		self.excludedListBox.Bind(wx.EVT_LISTBOX, self.onListSelect)
-		sHelper.addLabeledControl(excludedLabel, self.excludedListBox)
 
 		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
 		# Translators: Label for the Add button in the AutoMaximize settings panel.
