@@ -22,10 +22,10 @@ addon_info = AddonInfo(
 	# Translators: Long description to be shown for this add-on on add-on information from add-on store
 	addon_description=_("""Automatically maximizes application windows to keep controls and interface elements visible and accessible. Especially useful for web-based applications and for creating clear video tutorials and screen recordings."""),
 	# version
-	addon_version="1.3",
+	addon_version="1.4",
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version to be shown in the add-on store
-	addon_changelog=_("""- Added compatibility with NVDA 2026.3.\n - Minor fixes and maintenance."""),
+	addon_changelog=_("""- Added ability to exclude specific applications from automatic window maximization.\n- Added an unassigned command to quickly toggle the active application in or out of the exclusion list.\n- Added an excluded applications management list in AutoMaximize settings with Add, Remove, and Browse options.\n- Added compatibility with NVDA 2026.3.\n- Minor fixes and maintenance."""),
 	# Author(s)
 	addon_author="tecwindow <support@tecwindow.net>",
 	# URL for the add-on documentation support
