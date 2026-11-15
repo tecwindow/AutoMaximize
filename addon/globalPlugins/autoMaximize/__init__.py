@@ -99,7 +99,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		finally:
 			self._scheduleCheck(CHECK_INTERVAL)
 
-	def _getAppNameFromHWnd(self, hWnd: int) -> typing.Optional[str]:
+	def _getAppNameFromHWnd(self, hWnd: int) -> str | None:
 		"""Get the process executable name for a given window handle."""
 		try:
 			processID = winUser.getWindowThreadProcessID(hWnd)[0]
@@ -107,7 +107,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				appName = appModuleHandler.getAppNameFromProcessID(processID, False)
 				if appName:
 					return appName
-		except Exception:
+		except Exception:  # noqa: BLE001
 			pass
 		return None
 
@@ -199,7 +199,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if not appName:
 				try:
 					appName = foreground.appModule.appName
-				except Exception:
+				except Exception:  # noqa: BLE001
 					appName = None
 
 		if not appName:

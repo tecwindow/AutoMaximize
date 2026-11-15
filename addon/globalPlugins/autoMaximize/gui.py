@@ -6,12 +6,12 @@
 """GUI settings panel for AutoMaximize."""
 
 import typing
-import wx
 
 import addonHandler
 import config
 from gui import guiHelper
 from gui.settingsDialogs import SettingsPanel
+import wx
 
 from .consts import CONFIG_SECTION, normalizeAppName
 
