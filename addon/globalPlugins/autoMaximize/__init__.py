@@ -1,4 +1,3 @@
-
 # pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false
 # -*- coding: UTF-8 -*-
 # AutoMaximize global plugin for NVDA
@@ -12,13 +11,14 @@ Standard application windows and dialog windows can be controlled
 independently from the NVDA Settings dialog, and the whole feature can be
 toggled on or off with a configurable keyboard command that provides audible
 (beep) feedback.
+Specific applications can be excluded from automatic maximization.
 """
 
 import typing
-import wx
 
 import addonHandler
 import api
+import appModuleHandler
 import config
 import core
 import globalPluginHandler
@@ -27,8 +27,21 @@ import scriptHandler
 import tones
 import ui
 import winUser
-from gui import guiHelper
-from gui.settingsDialogs import NVDASettingsDialog, SettingsPanel
+from gui.settingsDialogs import NVDASettingsDialog
+
+from .consts import (
+	CHECK_INTERVAL,
+	CONFIG_SECTION,
+	CONFIG_SPEC,
+	DIALOG_WINDOW_CLASS,
+	SC_MAXIMIZE,
+	SKIP_WINDOW_CLASSES,
+	WM_SYSCOMMAND,
+	WS_MAXIMIZE,
+	WS_MAXIMIZEBOX,
+	normalizeAppName,
+)
+from .gui import AutoMaximizeSettingsPanel
 
 # Provide a stub for the gettext translation function so type checkers recognize it.
 if typing.TYPE_CHECKING:
@@ -36,58 +49,8 @@ if typing.TYPE_CHECKING:
 
 addonHandler.initTranslation()
 
-# --- Win32 constants (from winuser.h) ---------------------------------------
-SC_MAXIMIZE: int = 0xF030          # wParam for WM_SYSCOMMAND that maximizes a window
-WM_SYSCOMMAND: int = 0x112         # message used to send a system command to a window
-WS_MAXIMIZE: int = 0x01000000      # window style set when a window is already maximized
-WS_MAXIMIZEBOX: int = 0x00010000   # window style present when a window CAN be maximized
-
-# Standard Win32 class name shared by common dialog boxes.
-DIALOG_WINDOW_CLASS: str = "#32770"
-# Window classes that must never be maximized (shell / system surfaces).
-SKIP_WINDOW_CLASSES: frozenset[str] = frozenset(("Shell_TrayWnd", "DV2ControlHost"))
-
-# How often (in milliseconds) the foreground window is inspected.
-CHECK_INTERVAL: int = 1000
-
-# Configuration section and specification for this add-on. Registering a spec
-# lets NVDA persist the values across restarts and supplies the defaults.
-CONFIG_SECTION: str = "autoMaximize"
-CONFIG_SPEC: dict[str, str] = {
-	"enabled": "boolean(default=true)",
-	# Standard application windows were always maximized before, so keep that
-	# behaviour by default.
-	"maximizeApplications": "boolean(default=true)",
-	# Dialog windows were previously skipped, so leave them opt-in by default.
-	"maximizeDialogs": "boolean(default=false)",
-}
+# Register the configuration specification with NVDA.
 config.conf.spec[CONFIG_SECTION] = CONFIG_SPEC
-
-
-class AutoMaximizeSettingsPanel(SettingsPanel):
-	"""Settings category for AutoMaximize shown in NVDA's Settings dialog."""
-
-	# Translators: The title of the AutoMaximize category in NVDA's Settings dialog.
-	title = _("AutoMaximize")
-
-	def makeSettings(self, settingsSizer: typing.Any) -> None:
-		"""Build the panel controls and populate them from saved configuration."""
-		sHelper = guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
-		conf = config.conf[CONFIG_SECTION]
-		# Translators: Label for a checkbox in the AutoMaximize settings panel.
-		appsLabel = _("Automatically maximize standard application &windows")
-		self.appsCheckBox = sHelper.addItem(wx.CheckBox(self, label=appsLabel))
-		self.appsCheckBox.SetValue(conf["maximizeApplications"])
-		# Translators: Label for a checkbox in the AutoMaximize settings panel.
-		dialogsLabel = _("Automatically maximize &dialog windows")
-		self.dialogsCheckBox = sHelper.addItem(wx.CheckBox(self, label=dialogsLabel))
-		self.dialogsCheckBox.SetValue(conf["maximizeDialogs"])
-
-	def onSave(self) -> None:
-		"""Persist the panel controls back to NVDA's configuration."""
-		conf = config.conf[CONFIG_SECTION]
-		conf["maximizeApplications"] = self.appsCheckBox.GetValue()
-		conf["maximizeDialogs"] = self.dialogsCheckBox.GetValue()
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -136,6 +99,18 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		finally:
 			self._scheduleCheck(CHECK_INTERVAL)
 
+	def _getAppNameFromHWnd(self, hWnd: int) -> typing.Optional[str]:
+		"""Get the process executable name for a given window handle."""
+		try:
+			processID = winUser.getWindowThreadProcessID(hWnd)[0]
+			if processID:
+				appName = appModuleHandler.getAppNameFromProcessID(processID, False)
+				if appName:
+					return appName
+		except Exception:
+			pass
+		return None
+
 	def _maximizeForegroundWindow(self) -> None:
 		"""Maximize the current foreground window if configuration allows it."""
 		foreground = api.getForegroundObject()
@@ -149,7 +124,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Maximize ``hWnd`` when it is eligible and enabled in configuration.
 
 		A window is eligible only when it is not already maximized, exposes a
-		maximize box, is not a shell / system surface, and has a visible title.
+		maximize box, is not a shell / system surface, has a visible title,
+		and is not present in the excluded applications list.
 		Standard application windows and dialog windows are each gated by their
 		own configuration option.
 		"""
@@ -163,6 +139,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		# Skip untitled windows (usually transient popups, menus or tooltips).
 		if not winUser.getWindowText(hWnd):
 			return
+
+		# Check if the application is in the exclusion list.
+		appName = self._getAppNameFromHWnd(hWnd)
+		if appName:
+			normName = normalizeAppName(appName)
+			conf = config.conf[CONFIG_SECTION]
+			excluded = {normalizeAppName(x) for x in conf.get("excludedApplications", [])}
+			if normName in excluded:
+				return
+
 		conf = config.conf[CONFIG_SECTION]
 		# Dialogs and standard application windows are controlled independently.
 		if className == DIALOG_WINDOW_CLASS:
@@ -195,3 +181,48 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			tones.beep(220, 120)
 			# Translators: Announced when the toggle turns the feature off.
 			ui.message(_("Automatic window maximization disabled"))
+
+	@scriptHandler.script(
+		# Translators: Description of the command to toggle exclusion for the active application.
+		description=_("Toggles the active application in or out of the auto-maximize exclusion list"),
+		# Translators: Input Gestures category for this add-on's commands.
+		category=_("AutoMaximize"),
+	)
+	def script_toggleCurrentAppExclusion(self, gesture: typing.Any) -> None:
+		"""Toggle the active application into or out of the excluded list."""
+		foreground = api.getForegroundObject()
+		appName = None
+		if foreground is not None:
+			hWnd = getattr(foreground, "windowHandle", 0)
+			if hWnd:
+				appName = self._getAppNameFromHWnd(hWnd)
+			if not appName:
+				try:
+					appName = foreground.appModule.appName
+				except Exception:
+					appName = None
+
+		if not appName:
+			# Translators: Announced when the current application name could not be identified.
+			ui.message(_("Could not determine current application name"))
+			return
+
+		normName = normalizeAppName(appName)
+		conf = config.conf[CONFIG_SECTION]
+		rawExcluded = conf.get("excludedApplications", [])
+		excluded = [normalizeAppName(x) for x in rawExcluded if normalizeAppName(x)]
+
+		if normName in excluded:
+			excluded = [x for x in excluded if x != normName]
+			conf["excludedApplications"] = excluded
+			tones.beep(220, 100)
+			# Translators: Announced when an application is removed from the excluded list.
+			ui.message(_("{app} removed from excluded applications").format(app=normName))
+			if conf.get("enabled", True):
+				self._scheduleCheck(0)
+		else:
+			excluded.append(normName)
+			conf["excludedApplications"] = excluded
+			tones.beep(880, 100)
+			# Translators: Announced when an application is added to the excluded list.
+			ui.message(_("{app} added to excluded applications").format(app=normName))
