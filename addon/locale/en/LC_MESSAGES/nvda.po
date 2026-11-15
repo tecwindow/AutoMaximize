@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AutoMaximize 1.1\n"
+"Project-Id-Version: AutoMaximize 1.4\n"
 "Report-Msgid-Bugs-To: ahmedBakr593@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 00:00+0000\n"
-"PO-Revision-Date: 2026-07-15 00:00+0000\n"
+"POT-Creation-Date: 2026-11-15 00:00+0000\n"
+"PO-Revision-Date: 2026-11-15 00:00+0000\n"
 "Last-Translator: AutoMaximize\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -24,6 +24,38 @@ msgstr "Automatically maximize standard application &windows"
 msgid "Automatically maximize &dialog windows"
 msgstr "Automatically maximize &dialog windows"
 
+#. Translators: Label for the excluded applications list in the AutoMaximize settings panel.
+msgid "&Excluded applications:"
+msgstr "&Excluded applications:"
+
+#. Translators: Label for the Add button in the AutoMaximize settings panel.
+msgid "&Add..."
+msgstr "&Add..."
+
+#. Translators: Label for the Remove button in the AutoMaximize settings panel.
+msgid "&Remove"
+msgstr "&Remove"
+
+#. Translators: Label for the Browse button in the AutoMaximize settings panel.
+msgid "&Browse..."
+msgstr "&Browse..."
+
+#. Translators: Prompt in dialog to enter application executable name.
+msgid "Enter application executable name (e.g. notepad.exe):"
+msgstr "Enter application executable name (e.g. notepad.exe):"
+
+#. Translators: Title of dialog to enter application executable name.
+msgid "Add Excluded Application"
+msgstr "Add Excluded Application"
+
+#. Translators: Title of the file browser dialog to select an executable.
+msgid "Select application executable"
+msgstr "Select application executable"
+
+#. Translators: Filter string for executable files in the file browser dialog.
+msgid "Executable files (*.exe)|*.exe|All files (*.*)|*.*"
+msgstr "Executable files (*.exe)|*.exe|All files (*.*)|*.*"
+
 #. Translators: Description of the toggle command shown in Input Gestures.
 msgid "Toggles automatic window maximization on or off"
 msgstr "Toggles automatic window maximization on or off"
@@ -35,3 +67,19 @@ msgstr "Automatic window maximization enabled"
 #. Translators: Announced when the toggle turns the feature off.
 msgid "Automatic window maximization disabled"
 msgstr "Automatic window maximization disabled"
+
+#. Translators: Description of the command to toggle exclusion for the active application.
+msgid "Toggles the active application in or out of the auto-maximize exclusion list"
+msgstr "Toggles the active application in or out of the auto-maximize exclusion list"
+
+#. Translators: Announced when the current application name could not be identified.
+msgid "Could not determine current application name"
+msgstr "Could not determine current application name"
+
+#. Translators: Announced when an application is removed from the excluded list.
+msgid "{app} removed from excluded applications"
+msgstr "{app} removed from excluded applications"
+
+#. Translators: Announced when an application is added to the excluded list.
+msgid "{app} added to excluded applications"
+msgstr "{app} added to excluded applications"

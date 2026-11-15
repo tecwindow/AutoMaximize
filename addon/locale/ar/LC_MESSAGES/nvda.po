@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AutoMaximize 1.1\n"
+"Project-Id-Version: AutoMaximize 1.4\n"
 "Report-Msgid-Bugs-To: ahmedBakr593@gmail.com\n"
-"POT-Creation-Date: 2026-07-15 00:00+0000\n"
-"PO-Revision-Date: 2026-07-15 23:11+0300\n"
+"POT-Creation-Date: 2026-11-15 00:00+0000\n"
+"PO-Revision-Date: 2026-11-15 17:55+0200\n"
 "Last-Translator: AutoMaximize\n"
 "Language-Team: Arabic\n"
 "Language: ar\n"
@@ -26,6 +26,38 @@ msgstr "تكبير &نوافذ التطبيقات القياسية تلقائي�
 msgid "Automatically maximize &dialog windows"
 msgstr "تكبير مربعات ال&حوار تلقائيًا"
 
+#. Translators: Label for the excluded applications list in the AutoMaximize settings panel.
+msgid "&Excluded applications:"
+msgstr "التطبيقات الم&ستثناة:"
+
+#. Translators: Label for the Add button in the AutoMaximize settings panel.
+msgid "&Add..."
+msgstr "إ&ضافة..."
+
+#. Translators: Label for the Remove button in the AutoMaximize settings panel.
+msgid "&Remove"
+msgstr "إ&زالة"
+
+#. Translators: Label for the Browse button in the AutoMaximize settings panel.
+msgid "&Browse..."
+msgstr "ا&ستعراض..."
+
+#. Translators: Prompt in dialog to enter application executable name.
+msgid "Enter application executable name (e.g. notepad.exe):"
+msgstr "أدخل اسم الملف التنفيذي للتطبيق (مثل notepad.exe):"
+
+#. Translators: Title of dialog to enter application executable name.
+msgid "Add Excluded Application"
+msgstr "إضافة تطبيق مستثنى"
+
+#. Translators: Title of the file browser dialog to select an executable.
+msgid "Select application executable"
+msgstr "تحديد الملف التنفيذي للتطبيق"
+
+#. Translators: Filter string for executable files in the file browser dialog.
+msgid "Executable files (*.exe)|*.exe|All files (*.*)|*.*"
+msgstr "الملفات التنفيذية (*.exe)|*.exe|كافة الملفات (*.*)|*.*"
+
 #. Translators: Description of the toggle command shown in Input Gestures.
 msgid "Toggles automatic window maximization on or off"
 msgstr "إيقاف أو تشغيل التكبير التلقائي للنوافذ"
@@ -37,3 +69,19 @@ msgstr "تم تفعيل التكبير التلقائي للنوافذ"
 #. Translators: Announced when the toggle turns the feature off.
 msgid "Automatic window maximization disabled"
 msgstr "تم إيقاف التكبير التلقائي للنوافذ"
+
+#. Translators: Description of the command to toggle exclusion for the active application.
+msgid "Toggles the active application in or out of the auto-maximize exclusion list"
+msgstr "إضافة التطبيق النشط إلى قائمة استثناء التكبير التلقائي أو إزالته منها"
+
+#. Translators: Announced when the current application name could not be identified.
+msgid "Could not determine current application name"
+msgstr "تعذر تحديد اسم التطبيق الحالي"
+
+#. Translators: Announced when an application is removed from the excluded list.
+msgid "{app} removed from excluded applications"
+msgstr "تمت إزالة {app} من قائمة التطبيقات المستثناة"
+
+#. Translators: Announced when an application is added to the excluded list.
+msgid "{app} added to excluded applications"
+msgstr "تمت إضافة {app} إلى قائمة التطبيقات المستثناة"
