@@ -16,7 +16,7 @@ The add-on runs a low-overhead background check and provides independent control
 ## Shortcuts
 
 * NVDA+Shift+A: turns automatic window maximization on or off. A high-pitched beep indicates that maximization has been enabled, while a low-pitched beep indicates that it has been disabled.
-* Toggle active application in/out of exclusion list: an unassigned toggle command that can be configured via NVDA's Input Gestures dialog, under the AutoMaximize category. When pressed, it adds the current active application to the exclusion list with a high-pitched beep, or removes it if already excluded with a low-pitched beep.
+* Add/remove current application from auto-maximize list: an unassigned toggle command that can be configured via NVDA's Input Gestures dialog, under the AutoMaximize category. When pressed, it adds the current active application to the exclusion list with a high-pitched beep, or removes it if already excluded with a low-pitched beep.
 
 You can change or customize these shortcuts via the Input Gestures dialog, under the AutoMaximize category.
 
@@ -59,7 +59,7 @@ For more software, accessibility tools, and technology content, visit the [Tecwi
 ### Version 1.4
 
 * Added the ability to exclude specific applications from automatic window maximization.
-* Added an unassigned command to quickly toggle the active application in or out of the exclusion list.
+* Added an unassigned command to quickly add or remove the current application from the auto-maximize list.
 * Added an excluded applications management list in AutoMaximize settings with Add, Remove, and Browse options.
 * General improvements and maintenance.
 

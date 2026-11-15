@@ -183,8 +183,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			ui.message(_("Automatic window maximization disabled"))
 
 	@scriptHandler.script(
-		# Translators: Description of the command to toggle exclusion for the active application.
-		description=_("Toggles the active application in or out of the auto-maximize exclusion list"),
+		# Translators: Description of the command to add or remove current app from the auto-maximize list.
+		description=_("Adds or removes the current application from the auto-maximize list"),
 		# Translators: Input Gestures category for this add-on's commands.
 		category=_("AutoMaximize"),
 	)

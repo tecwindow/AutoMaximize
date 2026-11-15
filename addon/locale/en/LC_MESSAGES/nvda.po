@@ -68,9 +68,9 @@ msgstr "Automatic window maximization enabled"
 msgid "Automatic window maximization disabled"
 msgstr "Automatic window maximization disabled"
 
-#. Translators: Description of the command to toggle exclusion for the active application.
-msgid "Toggles the active application in or out of the auto-maximize exclusion list"
-msgstr "Toggles the active application in or out of the auto-maximize exclusion list"
+#. Translators: Description of the command to add or remove current app from the auto-maximize list.
+msgid "Adds or removes the current application from the auto-maximize list"
+msgstr "Adds or removes the current application from the auto-maximize list"
 
 #. Translators: Announced when the current application name could not be identified.
 msgid "Could not determine current application name"

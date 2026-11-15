@@ -25,7 +25,7 @@ addon_info = AddonInfo(
 	addon_version="1.4",
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version to be shown in the add-on store
-	addon_changelog=_("""- Added ability to exclude specific applications from automatic window maximization.\n- Added an unassigned command to quickly toggle the active application in or out of the exclusion list.\n- Added an excluded applications management list in AutoMaximize settings with Add, Remove, and Browse options.\n- Added compatibility with NVDA 2026.3.\n- Minor fixes and maintenance."""),
+	addon_changelog=_("""- Added ability to exclude specific applications from automatic window maximization.\n- Added an unassigned command to quickly add or remove the current application from the auto-maximize list.\n- Added an excluded applications management list in AutoMaximize settings with Add, Remove, and Browse options.\n- Added compatibility with NVDA 2026.3.\n- Minor fixes and maintenance."""),
 	# Author(s)
 	addon_author="tecwindow <support@tecwindow.net>",
 	# URL for the add-on documentation support
