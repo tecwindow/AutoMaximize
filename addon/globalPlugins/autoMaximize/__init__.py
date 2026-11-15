@@ -41,7 +41,7 @@ from .consts import (
 	WS_MAXIMIZEBOX,
 	normalizeAppName,
 )
-from .gui import AutoMaximizeSettingsPanel
+from .settingsPanel import AutoMaximizeSettingsPanel
 
 # Provide a stub for the gettext translation function so type checkers recognize it.
 if typing.TYPE_CHECKING:

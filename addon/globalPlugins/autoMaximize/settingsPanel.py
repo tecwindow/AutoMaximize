@@ -1,4 +1,4 @@
-# pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false
+# pyright: reportMissingImports=false, reportUnknownMemberType=false, reportUnknownVariableType=false, reportUnknownArgumentType=false, reportUntypedFunctionDecorator=false, reportUntypedBaseClass=false, reportUnknownParameterType=false
 # -*- coding: UTF-8 -*-
 # AutoMaximize global plugin for NVDA
 # Author: Tecwindow - https://tecwindow.net
